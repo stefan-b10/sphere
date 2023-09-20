@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+<div align="center">
+<img src="public/icon-128.png" alt="logo"/>
+<h1> Chrome Extension Boilerplate with<br/>React + Vite + TypeScript</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![](https://badges.aleen42.com/src/vitejs.svg)
+![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/build-zip.yml/badge.svg)
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/Jonghakseo/chrome-extension-boilerplate-react-viteFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
 
-## Available Scripts
 
-In the project directory, you can run:
+> This project is listed in the [Awesome Vite](https://github.com/vitejs/awesome-vite)
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Table of Contents
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [Intro](#intro)
+- [Features](#features)
+- [Installation](#installation)
+  - [Procedures](#procedures)
+- [Screenshots](#screenshots)
+  - [NewTab](#newtab)
+  - [Popup](#popup)  
+- [Examples](#examples)
+- [Documents](#documents)
 
-### `npm test`
+## Intro <a name="intro"></a>
+This boilerplate is made for creating chrome extensions using React and Typescript.
+> The focus was on improving the build speed and development experience with Vite.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features <a name="features"></a>
+- [React 18](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Jest](https://jestjs.io/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [Vite](https://vitejs.dev/)
+- [SASS](https://sass-lang.com/)
+- [Twind](https://twind.dev/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [Chrome Extension Manifest Version 3](https://developer.chrome.com/docs/extensions/mv3/intro/)
+- HRR(Hot Rebuild & Refresh/Reload)
 
-### `npm run build`
+## Installation <a name="installation"></a>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Procedures <a name="procedures"></a>
+1. Clone this repository.
+2. Change `name` and `description` in package.json => **Auto synchronize with manifest** 
+3. Run `yarn install` or `npm i` (check your node version >= 16.6, recommended >= 18)
+4. Run `yarn dev` or `npm run dev`
+5. Load Extension on Chrome
+   1. Open - Chrome browser
+   2. Access - chrome://extensions
+   3. Check - Developer mode
+   4. Find - Load unpacked extension
+   5. Select - `dist` folder in this project (after dev or build)
+6. If you want to build in production, Just run `yarn build` or `npm run build`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Screenshots <a name="screenshots"></a>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### New Tab <a name="newtab"></a>
 
-### `npm run eject`
+<img width="971" src="https://user-images.githubusercontent.com/53500778/162631646-cd40976b-b737-43d0-8e6a-6ac090a2e2d4.png">
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Popup <a name="popup"></a>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<img width="314" alt="popup" src="https://user-images.githubusercontent.com/53500778/203561728-23517d46-12e3-4139-8a4f-e0b2f22a6ab3.png">
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Examples <a name="examples"></a>
+- https://github.com/Jonghakseo/drag-gpt-extension
+- https://github.com/Jonghakseo/pr-commit-noti
+- https://github.com/ariburaco/chatgpt-file-uploader-extended
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Documents <a name="documents"></a>
+- [Vite Plugin](https://vitejs.dev/guide/api-plugin.html)
+- [ChromeExtension](https://developer.chrome.com/docs/extensions/mv3/)
+- [Rollup](https://rollupjs.org/guide/en/)
+- [Rollup-plugin-chrome-extension](https://www.extend-chrome.dev/rollup-plugin)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Star History
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+[![Star History Chart](https://api.star-history.com/svg?repos=Jonghakseo/chrome-extension-boilerplate-react-vite&type=Date)](https://star-history.com/#Jonghakseo/chrome-extension-boilerplate-react-vite&Date)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+---
+## Thanks To
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| [Jetbrains](https://jb.gg/OpenSourceSupport)                                                                           | [Jackson Hong](https://www.linkedin.com/in/j-acks0n/)                                            |
+|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| <img width="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo."> | <img width="100" src='https://avatars.githubusercontent.com/u/23139754?v=4' alt='Jackson Hong'/> |
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Jonghakseo](https://nookpi.tistory.com/)
