@@ -7,6 +7,8 @@ import addHmr from "./utils/plugins/add-hmr";
 import watchRebuild from "./utils/plugins/watch-rebuild";
 import manifest from "./manifest";
 
+import { nodePolyfills } from "vite-plugin-node-polyfills";
+
 const rootDir = resolve(__dirname);
 const srcDir = resolve(rootDir, "src");
 const pagesDir = resolve(srcDir, "pages");
@@ -38,7 +40,9 @@ export default defineConfig({
     customDynamicImport(),
     addHmr({ background: enableHmrInBackgroundScript, view: true }),
     watchRebuild(),
+    nodePolyfills(),
   ],
+
   publicDir,
   build: {
     outDir,
@@ -48,14 +52,10 @@ export default defineConfig({
     reportCompressedSize: isProduction,
     rollupOptions: {
       input: {
-        devtools: resolve(pagesDir, "devtools", "index.html"),
-        panel: resolve(pagesDir, "panel", "index.html"),
-        content: resolve(pagesDir, "content", "index.ts"),
         background: resolve(pagesDir, "background", "index.ts"),
-        contentStyle: resolve(pagesDir, "content", "style.scss"),
         popup: resolve(pagesDir, "popup", "index.html"),
-        newtab: resolve(pagesDir, "newtab", "index.html"),
-        options: resolve(pagesDir, "options", "index.html"),
+        content: resolve(pagesDir, "content", "index.ts"),
+        injected: resolve(pagesDir, "content", "injected.ts"),
       },
       output: {
         entryFileNames: "src/pages/[name]/index.js",
