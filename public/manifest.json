@@ -1,12 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "Sphere Wallet",
   "version": "0.0.1",
-  "description": "chrome extension boilerplate",
+  "description": "Near protocol wallet chrome extension",
   "permissions": [
-    "storage"
+    "storage",
+    "activeTab",
+    "tabs",
+    "webRequest"
   ],
-  "options_page": "src/pages/options/index.html",
   "background": {
     "service_worker": "src/pages/background/index.js",
     "type": "module"
@@ -14,9 +16,6 @@
   "action": {
     "default_popup": "src/pages/popup/index.html",
     "default_icon": "icon-34.png"
-  },
-  "chrome_url_overrides": {
-    "newtab": "src/pages/newtab/index.html"
   },
   "icons": {
     "128": "icon-128.png"
@@ -31,22 +30,23 @@
       "js": [
         "src/pages/content/index.js"
       ],
-      "css": [
-        "assets/css/contentStyle16952141175.chunk.css"
-      ]
+      "css": []
     }
   ],
-  "devtools_page": "src/pages/devtools/index.html",
   "web_accessible_resources": [
     {
       "resources": [
         "assets/js/*.js",
         "assets/css/*.css",
+        "src/pages/content/index.js",
+        "src/pages/injected/index.js",
         "icon-128.png",
         "icon-34.png"
       ],
       "matches": [
-        "*://*/*"
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
       ]
     }
   ]
