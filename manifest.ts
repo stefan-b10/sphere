@@ -26,14 +26,7 @@ const manifest: chrome.runtime.ManifestV3 = {
       js: ["src/pages/content/index.js"],
       // KEY for cache invalidation
       css: [],
-      // run_at: "document_start",
     },
-    // {
-    //   matches: ["http://*/*", "https://*/*", "<all_urls>"],
-    //   js: ["src/pages/injected/index.js"],
-    //   css: [],
-    //   // run_at: "document_start",
-    // },
   ],
   web_accessible_resources: [
     {
@@ -48,10 +41,6 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
     },
   ],
-  // content_security_policy: {
-  //   extension_pages:
-  //     "script-src 'self' 'wasm-unsafe-eval';'wasm-eval' object-src 'self';",
-  // },
 };
 
 export default manifest;

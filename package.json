@@ -1,7 +1,7 @@
 {
-  "name": "shpere-near-wallet-extension",
+  "name": "Sphere Wallet",
   "version": "0.0.1",
-  "description": "near wallet chrome extension",
+  "description": "Near protocol wallet chrome extension",
   "license": "MIT",
   "repository": {
     "type": "git",
