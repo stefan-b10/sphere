@@ -1,98 +1,44 @@
 <div align="center">
 <img src="public/icon-128.png" alt="logo"/>
-<h1> Chrome Extension Boilerplate with<br/>React + Vite + TypeScript</h1>
-
-![](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![](https://badges.aleen42.com/src/vitejs.svg)
-![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/build-zip.yml/badge.svg)
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/Jonghakseo/chrome-extension-boilerplate-react-viteFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
-
-
-> This project is listed in the [Awesome Vite](https://github.com/vitejs/awesome-vite)
+<h1> Sphere Wallet Chrome Extension</h1>
 
 </div>
 
-## Table of Contents
+## Intro 
+Sphere Wallet Chrome extension is a user-friendly and secure extension designed to simplify interaction with Near Protocol on the Near blockchain network. The extension provides users with the tools they need to create, manage and secure their Near wallet while seamlessly integrating with Near Dapps.
 
-- [Intro](#intro)
-- [Features](#features)
-- [Installation](#installation)
-  - [Procedures](#procedures)
-- [Screenshots](#screenshots)
-  - [NewTab](#newtab)
-  - [Popup](#popup)  
-- [Examples](#examples)
-- [Documents](#documents)
+The wallet adheres to [Injected Wallets Standard](https://nomicon.io/Standards/Wallets/InjectedWallets) by injecting in browser under `window.sphere` the wallet object which exposes the methods needed so Dapps can interact with it.
 
-## Intro <a name="intro"></a>
-This boilerplate is made for creating chrome extensions using React and Typescript.
-> The focus was on improving the build speed and development experience with Vite.
-
+This Chrome extension is developed using React, Typescript and Vite using [chrome-extension-boilerplate-react-vite](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
 ## Features <a name="features"></a>
-- [React 18](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Jest](https://jestjs.io/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- [Vite](https://vitejs.dev/)
-- [SASS](https://sass-lang.com/)
-- [Twind](https://twind.dev/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Chrome Extension Manifest Version 3](https://developer.chrome.com/docs/extensions/mv3/intro/)
-- HRR(Hot Rebuild & Refresh/Reload)
+- User-Friendly interface: Sphere offers an intuitive and easy-to-navigate interface, making it accessible for both beginners and experienced users.
+- Wallet Creation: Users can easily create or import a Near wallet and securely manage their seed phrases, private keys and public keys
+- Transaction Management: Send and receive Near tokens with ease
+- Integration with Dapps: Semlessly interact with Near-powered decentralized applications through the extension, facilitating quick and secure transactions
 
-## Installation <a name="installation"></a>
 
-### Procedures <a name="procedures"></a>
-1. Clone this repository.
-2. Change `name` and `description` in package.json => **Auto synchronize with manifest** 
-3. Run `yarn install` or `npm i` (check your node version >= 16.6, recommended >= 18)
-4. Run `yarn dev` or `npm run dev`
+## Installation 
+
+1. Clone this repository: `git clone https://github.com/stefan-b10/sphere`
+2. Navigate to the project directory
+3. Install dependencies: `npm install`
+4. After all the dependencies are installed build the extension: `npm run build`
 5. Load Extension on Chrome
    1. Open - Chrome browser
    2. Access - chrome://extensions
    3. Check - Developer mode
    4. Find - Load unpacked extension
    5. Select - `dist` folder in this project (after dev or build)
-6. If you want to build in production, Just run `yarn build` or `npm run build`.
 
-## Screenshots <a name="screenshots"></a>
+## Usage 
+- Create a new Near wallet or import an existing one
+  
+![home](https://github.com/stefan-b10/sphere/assets/72396423/74f65cc2-91ab-46f4-8fe4-c879d101e17f)
 
-### New Tab <a name="newtab"></a>
+- Delete a account
+  
+![delete](https://github.com/stefan-b10/sphere/assets/72396423/c083c6e6-e80c-43dc-b42a-181d16467991)
 
-<img width="971" src="https://user-images.githubusercontent.com/53500778/162631646-cd40976b-b737-43d0-8e6a-6ac090a2e2d4.png">
-
-### Popup <a name="popup"></a>
-
-<img width="314" alt="popup" src="https://user-images.githubusercontent.com/53500778/203561728-23517d46-12e3-4139-8a4f-e0b2f22a6ab3.png">
-
-## Examples <a name="examples"></a>
-- https://github.com/Jonghakseo/drag-gpt-extension
-- https://github.com/Jonghakseo/pr-commit-noti
-- https://github.com/ariburaco/chatgpt-file-uploader-extended
-
-## Documents <a name="documents"></a>
-- [Vite Plugin](https://vitejs.dev/guide/api-plugin.html)
-- [ChromeExtension](https://developer.chrome.com/docs/extensions/mv3/)
-- [Rollup](https://rollupjs.org/guide/en/)
-- [Rollup-plugin-chrome-extension](https://www.extend-chrome.dev/rollup-plugin)
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Jonghakseo/chrome-extension-boilerplate-react-vite&type=Date)](https://star-history.com/#Jonghakseo/chrome-extension-boilerplate-react-vite&Date)
-
-
-
----
-## Thanks To
-
-| [Jetbrains](https://jb.gg/OpenSourceSupport)                                                                           | [Jackson Hong](https://www.linkedin.com/in/j-acks0n/)                                            |
-|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| <img width="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo."> | <img width="100" src='https://avatars.githubusercontent.com/u/23139754?v=4' alt='Jackson Hong'/> |
-
-
----
-
-[Jonghakseo](https://nookpi.tistory.com/)
+- Make a Near transfer
+  
+![transfer](https://github.com/stefan-b10/sphere/assets/72396423/5f51fe2b-db44-4628-99a9-218d75b3b70e)
