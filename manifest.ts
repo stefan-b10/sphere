@@ -9,7 +9,6 @@ const manifest: chrome.runtime.ManifestV3 = {
   version: packageJson.version,
   description: packageJson.description,
   permissions: ["storage", "activeTab", "tabs", "webRequest"],
-  options_page: "src/pages/options/index.html",
   background: {
     service_worker: "src/pages/background/index.js",
     type: "module",
@@ -27,9 +26,15 @@ const manifest: chrome.runtime.ManifestV3 = {
       js: ["src/pages/content/index.js"],
       // KEY for cache invalidation
       css: [],
+      // run_at: "document_start",
     },
+    // {
+    //   matches: ["http://*/*", "https://*/*", "<all_urls>"],
+    //   js: ["src/pages/injected/index.js"],
+    //   css: [],
+    //   // run_at: "document_start",
+    // },
   ],
-  devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
       resources: [
@@ -43,6 +48,10 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
     },
   ],
+  // content_security_policy: {
+  //   extension_pages:
+  //     "script-src 'self' 'wasm-unsafe-eval';'wasm-eval' object-src 'self';",
+  // },
 };
 
 export default manifest;

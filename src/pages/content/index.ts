@@ -14,11 +14,9 @@ window.addEventListener("message", (event) => {
 
   const msg = event.data;
   if (msg && msg.type && msg.type == "mw" && msg.dest == "ext") {
-    console.log("message received: ", msg);
-    console.log("Event: ", event);
+    
     // Sending message to mwallet extension background service worker
     chrome.runtime.sendMessage(msg, function (response) {
-      console.log(response);
       handleResponse(response, msg);
     });
   }
@@ -31,6 +29,7 @@ async function sleep(ms: number) {
 const MAX_COMMUNICATIONS = 2;
 
 async function handleResponse(response: any, msg: any): Promise<void> {
+  // post response to wallet-selector
   let postBackMsg = Object.assign({}, msg);
 
   try {
@@ -41,6 +40,9 @@ async function handleResponse(response: any, msg: any): Promise<void> {
     // communicationsLeft avoids infinite calls
     let communicationsLeft = MAX_COMMUNICATIONS;
     let waitingForInnerResponse = false;
+
+    // console.log("response in content before while");
+    // console.log(response);
 
     while (response && response.code != msg.code && communicationsLeft > 0) {
       if (waitingForInnerResponse) {
@@ -53,12 +55,15 @@ async function handleResponse(response: any, msg: any): Promise<void> {
         setTimeout(() => {
           chrome.runtime.sendMessage(msg, function (innerResponse) {
             response = innerResponse;
+
             waitingForInnerResponse = false;
           });
         }, 500);
       }
     }
 
+    // console.log("response in timeout");
+    // console.log(response);
     if (!response) {
       throw new Error(response.err);
     }
@@ -70,13 +75,10 @@ async function handleResponse(response: any, msg: any): Promise<void> {
   } catch (err) {
     const lastErrMessage = chrome.runtime.lastError?.message || err.message;
     postBackMsg.result = { err: lastErrMessage };
+  } finally {
+    postBackMsg.dest = "page";
+    window.postMessage(postBackMsg);
   }
-  /*
-  finally {
-    postBackMsg = "page";
-    window.postMessage(postBackMsg)
-  }
-  */
 }
 
 (function () {

@@ -29,6 +29,7 @@ export default defineConfig({
       "@src": srcDir,
       "@assets": assetsDir,
       "@pages": pagesDir,
+      crypto: "crypto-browserify",
     },
   },
   plugins: [

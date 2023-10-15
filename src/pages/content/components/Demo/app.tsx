@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 
 export default function App() {
-  useEffect(() => {
-    console.log("content view loaded");
-  }, []);
+  useEffect(() => {}, []);
 
-  return <div className="text-lime-400">content view</div>;
+  return <div className="text-lime-400">content view!!!1</div>;
 }
