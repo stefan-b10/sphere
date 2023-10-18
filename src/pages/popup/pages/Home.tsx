@@ -5,29 +5,23 @@ import logo from "@assets/img/logo.png";
 import NewPassword from "./NewPassword";
 import {
   askBackgroundIsState,
-  askBackgroundRecoverSecureState,
-  askBakcgroundIsLocked,
+  askBakcgroundIsSignedIn,
 } from "../utils/askBackground";
 
 // eslint-disable-next-line react/prop-types
 function Home({ selectedChain }) {
   const navigate = useNavigate();
 
-  const [isState, setIsState] = useState<boolean>(false);
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-
   useEffect(() => {
     try {
-      askBakcgroundIsLocked().then((res) => {
-        setIsSignedIn(res);
+      askBakcgroundIsSignedIn().then((res) => {
         if (res) {
           navigate("/yourwallet");
         } else {
-          askBackgroundRecoverSecureState().then(() => {
-            askBackgroundIsState().then((res) => {
-              setIsState(res);
-              if (res) navigate("/unlock");
-            });
+          askBackgroundIsState().then((isState) => {
+            if (isState) {
+              navigate("/unlock");
+            }
           });
         }
       });
@@ -48,7 +42,7 @@ function Home({ selectedChain }) {
     <>
       <div className="content">
         <img src={logo} alt="logo" className="frontPageLogo" />
-        <h3>Welcome to Sphere Wallet</h3>
+        <h3>Welcome to Metaintro Wallet</h3>
         <Button
           onClick={handleCreate}
           className="frontPageButton"

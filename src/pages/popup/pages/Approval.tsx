@@ -1,11 +1,7 @@
 import { Button, Divider, notification, Tag, Tooltip, Spin } from "antd";
 import { providers, utils } from "near-api-js";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  askBackgroundPrivateKey,
-  askBackgroundPublicKey,
-  askBakgroundSignTransaction,
-} from "../utils/askBackground";
+import { askBackgroundSignAndSendTransaction } from "../utils/askBackground";
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
@@ -38,43 +34,18 @@ function Approval({ selectedChain }) {
   function onConfirm() {
     setProcessing(true);
 
-    askBackgroundPublicKey().then((res) => {
-      const publicKey = res;
-
-      askBackgroundPrivateKey().then((res) => {
-        const privateKey = res;
-
-        const provider = new providers.JsonRpcProvider({
-          url: `https://rpc.testnet.near.org`,
+    try {
+      askBackgroundSignAndSendTransaction(transaction).then((res) => {
+        setProcessing(false);
+        navigate("/transactionresponse", {
+          state: { transaction: res },
         });
-
-        provider
-          .query(`access_key/${signerId}/${publicKey}`, "")
-          .then((res) => {
-            const accessKey = res;
-
-            askBakgroundSignTransaction({
-              privateKey: privateKey,
-              accessKey: accessKey,
-              transaction: transaction,
-            }).then((res) => {
-              const signedSerializedTx = res;
-
-              // TODO handle errors!!!
-              provider
-                .sendJsonRpc("broadcast_tx_commit", [
-                  Buffer.from(signedSerializedTx).toString("base64"),
-                ])
-                .then((res) => {
-                  setProcessing(false);
-                  navigate("/transactionresponse", {
-                    state: { transaction: res },
-                  });
-                });
-            });
-          });
       });
-    });
+    } catch (error) {
+      setProcessing(false);
+      console.log(error);
+      navigate("/yourwallet");
+    }
   }
 
   return (

@@ -19,12 +19,12 @@ export function askBackground(requestPayload: any): Promise<any> {
   });
 }
 
-export function askBakcgroundIsLocked(): Promise<boolean> {
+export function askBakcgroundIsSignedIn(): Promise<boolean> {
   return askBackground({ code: "is-signed-in" }) as Promise<boolean>;
 }
 
-export function askBackgroundIsState(): Promise<boolean> {
-  return askBackground({ code: "is-secure-state" }) as Promise<boolean>;
+export function askBackgroundIsState(): Promise<object> {
+  return askBackground({ code: "is-secure-state" }) as Promise<object>;
 }
 
 export function askBackgroundAccountId(): Promise<string> {
@@ -72,23 +72,9 @@ export function askBackgroundDeleteAccount(network): Promise<any> {
   return askBackground({ code: "delete-wallet", network: network });
 }
 
-export function askBakgroundSignTransaction(params): Promise<any> {
-  return askBackground({
-    code: "sign-transaction",
-    params: {
-      privateKey: params.privateKey,
-      accessKey: params.accessKey,
-      transaction: params.transaction,
-    },
-  });
-}
-
-// TODO resolve issue where the port closes before background can send a Promise!!!
-/*
 export function askBackgroundSignAndSendTransaction(transaction): Promise<any> {
   return askBackground({
     code: "sign-and-send-transaction",
     params: { transaction: transaction },
   }) as Promise<any>;
 }
-*/

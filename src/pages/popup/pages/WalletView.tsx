@@ -14,7 +14,6 @@ import {
 import {
   LogoutOutlined,
   CopyOutlined,
-  UpCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ import {
   askBackgroundCleatState,
   askBackgroundDeleteAccount,
 } from "../utils/askBackground";
-import { providers, Account, connect, utils } from "near-api-js";
+import { providers, utils } from "near-api-js";
 import nearIcon from "@assets/img/near.svg";
 
 // eslint-disable-next-line react/prop-types
@@ -44,9 +43,9 @@ function WalletView({ selectedChain }) {
 
   useEffect(() => {
     askBackgroundAccountId().then((res) => {
-      setWallet(res);
+      setWallet(res[0]);
 
-      getBalance(res).then((res) => {
+      getBalance(res[0]).then((res) => {
         setBalance(utils.format.formatNearAmount(res.amount, 3));
       });
     });
