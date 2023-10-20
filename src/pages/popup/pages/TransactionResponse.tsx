@@ -7,12 +7,9 @@ function TransactionResponse() {
 
   const { state } = useLocation();
 
-  const success = state.transaction.status;
-  const txHash = state.transaction.transaction.hash;
-
   return (
     <>
-      {success ? (
+      {state.transaction.status ? (
         <>
           <CheckCircleOutlined
             style={{ fontSize: "50px", color: "green", marginTop: "100px" }}
@@ -29,11 +26,14 @@ function TransactionResponse() {
             <h4 style={{ margin: "1px" }}>Transaction Id</h4>
             <a
               style={{ fontSize: "10px" }}
-              href={"https://explorer.testnet.near.org/transactions/" + txHash}
+              href={
+                "https://explorer.testnet.near.org/transactions/" +
+                state.transaction.transaction.hash
+              }
               target="_blank"
               rel="noreferrer"
             >
-              {txHash}
+              {state.transaction.transaction.hash}
             </a>
           </Card>
           <Button
@@ -52,6 +52,7 @@ function TransactionResponse() {
             rev={undefined}
           />
           <h2 style={{ color: "red" }}>Transaction failed!</h2>
+          <h4 style={{ color: "red" }}>{state.transaction.type}</h4>
           <Button
             type="primary"
             size="large"

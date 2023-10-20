@@ -57,6 +57,7 @@ export default defineConfig({
         popup: resolve(pagesDir, "popup", "index.html"),
         content: resolve(pagesDir, "content", "index.ts"),
         injected: resolve(pagesDir, "content", "injected.ts"),
+        approval: resolve(pagesDir, "popup", "approval.html"),
       },
       output: {
         entryFileNames: "src/pages/[name]/index.js",

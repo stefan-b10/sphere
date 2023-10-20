@@ -17,24 +17,48 @@ reloadOnUpdate("pages/background");
 
 console.log("background loaded");
 
-// TODO REFACTOR ALL VACKGROUND!!!!!!!!!!!!
-
 chrome.runtime.onMessage.addListener(runtimeMessageHandler);
 
 type SendResponseFunction = (response: any) => void;
 
-function approvePopup(transaction) {
-  chrome.runtime.sendMessage({ showApproval: true, data: transaction });
+function approvePopup(params) {
+  return new Promise((resolve) => {
+    const serializedParams = JSON.stringify(params);
 
-  // TODO handle transaction requests from outside extension
-  /*
-  chrome.windows.create({
-    url: "src/pages/popup/index.html",
-    type: "popup",
-    width: 350,
-    height: 600,
+    chrome.windows.create(
+      {
+        url: `src/pages/popup/approval.html?data=${encodeURIComponent(
+          serializedParams
+        )}`,
+        type: "popup",
+        width: 350,
+        height: 600,
+      },
+      (approvalWindow) => {
+        const windowId = approvalWindow.id;
+
+        function approveHandler(res, sender) {
+          const senderIsExt =
+            sender.url &&
+            sender.url.startsWith(
+              "chrome-extension://" + chrome.runtime.id + "/"
+            );
+
+          if (senderIsExt) {
+            if (res.response === true) {
+              commitActions(params).then((tx) => {
+                resolve({ data: tx });
+                chrome.windows.remove(windowId);
+              });
+            } else chrome.windows.remove(windowId);
+          }
+          chrome.runtime.onMessage.removeListener(approveHandler);
+        }
+
+        chrome.runtime.onMessage.addListener(approveHandler);
+      }
+    );
   });
-  */
 }
 
 function runtimeMessageHandler(
@@ -130,9 +154,15 @@ async function resolveUntrusted(
             return;
           }
           if (senderIsExt) {
-            commitActions(msg.params.transaction).then((tx) => {
-              sendResponse({ data: tx, code: msg.code });
-            });
+            commitActions(msg.params.transaction)
+              .then((tx) => {
+                sendResponse({ data: tx, code: msg.code });
+              })
+              .catch((error) => {
+                sendResponse({ data: error, code: msg.code });
+              });
+          } else {
+            approvePopup(msg.params.transaction);
           }
         }
       });
@@ -160,68 +190,71 @@ async function commitActions(params: {
   receiverId: string;
   signerId: string;
 }): Promise<FinalExecutionOutcome> {
-  const state = await sessionStateGet();
+  try {
+    const state = await sessionStateGet();
 
-  // Based on https://docs.near.org/integrator/create-transactions#low-level----create-a-transaction
-  const keyPair = KeyPair.fromString(state.privateKey);
-  const publicKey = keyPair.getPublicKey();
+    // Based on https://docs.near.org/integrator/create-transactions#low-level----create-a-transaction
+    const keyPair = KeyPair.fromString(state.privateKey);
+    const publicKey = keyPair.getPublicKey();
 
-  const accessKey: AccessKey = await provider.query(
-    `access_key/${params.signerId}/${state.publicKey}`,
-    ""
-  );
+    const accessKey: AccessKey = await provider.query(
+      `access_key/${params.signerId}/${state.publicKey}`,
+      ""
+    );
 
-  // each transaction requires a unique number or nonce
-  // this is created by taking the current nonce and incrementing it
-  const nonce = ++accessKey.nonce;
+    // each transaction requires a unique number or nonce
+    // this is created by taking the current nonce and incrementing it
+    const nonce = ++accessKey.nonce;
 
-  // converts a recent block hash into an array of bytes
-  // this hash was retreived earlier when creating the accessKey
-  // this is required to prove the tx was recently constructed (within 24hrs)
-  const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
+    // converts a recent block hash into an array of bytes
+    // this hash was retreived earlier when creating the accessKey
+    // this is required to prove the tx was recently constructed (within 24hrs)
+    const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
 
-  const reconstructedActions = params.actions.map((action: any) =>
-    createCorrespondingAction(action)
-  );
+    const reconstructedActions = params.actions.map((action: any) =>
+      createCorrespondingAction(action)
+    );
 
-  // create transaction
-  const transaction = transactions.createTransaction(
-    state.accountId,
-    publicKey,
-    params.receiverId,
-    nonce,
-    reconstructedActions,
-    recentBlockHash
-  );
+    // create transaction
+    const transaction = transactions.createTransaction(
+      state.accountId,
+      publicKey,
+      params.receiverId,
+      nonce,
+      reconstructedActions,
+      recentBlockHash
+    );
 
-  // before we can sign the transaction we must perform three steps...
-  // 1) serialize the transaction in Borsh
-  const serializedTx = utils.serialize.serialize(
-    transactions.SCHEMA,
-    transaction
-  );
-  // 2) hash the serialized transaction using sha256
-  const serializedTxBuffer = Buffer.from(serializedTx);
-  const sha256Hash = createHash("sha256").update(serializedTxBuffer).digest();
-  const serializedTxHash = new Uint8Array(sha256Hash);
-  // 3) create a signature using the hashed transaction
-  const signature = keyPair.sign(serializedTxHash);
-  // now we can sign the transaction
-  const signedTransaction = new transactions.SignedTransaction({
-    transaction,
-    signature: new transactions.Signature({
-      keyType: transaction.publicKey.keyType,
-      data: signature.signature,
-    }),
-  });
+    // before we can sign the transaction we must perform three steps...
+    // 1) serialize the transaction in Borsh
+    const serializedTx = utils.serialize.serialize(
+      transactions.SCHEMA,
+      transaction
+    );
+    // 2) hash the serialized transaction using sha256
+    const serializedTxBuffer = Buffer.from(serializedTx);
+    const sha256Hash = createHash("sha256").update(serializedTxBuffer).digest();
+    const serializedTxHash = new Uint8Array(sha256Hash);
+    // 3) create a signature using the hashed transaction
+    const signature = keyPair.sign(serializedTxHash);
+    // now we can sign the transaction
+    const signedTransaction = new transactions.SignedTransaction({
+      transaction,
+      signature: new transactions.Signature({
+        keyType: transaction.publicKey.keyType,
+        data: signature.signature,
+      }),
+    });
 
-  // encode signed transaction to serialized Borsh (required for all transactions)
-  const signedSerializedTx = signedTransaction.encode();
+    // encode signed transaction to serialized Borsh (required for all transactions)
+    const signedSerializedTx = signedTransaction.encode();
 
-  // TODO HANDLE ERRORS!!!
-  return provider.sendJsonRpc("broadcast_tx_commit", [
-    Buffer.from(signedSerializedTx).toString("base64"),
-  ]);
+    return await provider.sendJsonRpc("broadcast_tx_commit", [
+      Buffer.from(signedSerializedTx).toString("base64"),
+    ]);
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 function createCorrespondingAction(action: any): transactions.Action {

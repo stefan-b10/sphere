@@ -34,18 +34,12 @@ function Approval({ selectedChain }) {
   function onConfirm() {
     setProcessing(true);
 
-    try {
-      askBackgroundSignAndSendTransaction(transaction).then((res) => {
-        setProcessing(false);
-        navigate("/transactionresponse", {
-          state: { transaction: res },
-        });
-      });
-    } catch (error) {
+    askBackgroundSignAndSendTransaction(transaction).then((res) => {
       setProcessing(false);
-      console.log(error);
-      navigate("/yourwallet");
-    }
+      navigate("/transactionresponse", {
+        state: { transaction: res },
+      });
+    });
   }
 
   return (
